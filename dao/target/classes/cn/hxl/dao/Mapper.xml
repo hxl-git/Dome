@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="cn.hxl.dao.Dao">
+ 	<!-- 查询全部用户 -->
+ 	<select id="getAllUserList" resultType="User">
+ 	SELECT * FROM `user` WHERE `name` LIKE CONCAT('%',#{name},'%');
+ 	</select>	
+ 	
+ 	<!-- 获取性别 -->
+ 	<select id="getAllSexList" resultType="Sex">
+ 	SELECT * FROM `sex`;
+ 	</select>
+ 	
+ 	<!-- 根据用户id查询用户信息 -->
+ 	<select id="getUser" resultType="User">
+ 	SELECT * FROM `user` WHERE `id` = 1;
+ 	</select>
+ 	
+ 	<!-- 添加用户 返回主键id -->
+ 	<insert id="addUser" parameterType="User" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+ 	INSERT INTO `user`(`name`,`sex`)VALUES(#{name},#{sex});
+ 	</insert>
+ 	
+ 	<!-- 修改用户 -->
+	<update id="upUser" parameterType="User">
+	UPDATE `user` SET `name` = #{name} , `sex` = #{sex} WHERE `id` = #{id};
+	</update>
+	
+	<!-- 删除用户 -->
+	<delete id="delUser" parameterType="list">
+	DELETE FROM `user` WHERE `id` IN
+	<foreach collection="list" item="ids" close=")" open="(" separator=",">
+	#{ids}
+	</foreach>
+	;
+	</delete>
+ </mapper>
